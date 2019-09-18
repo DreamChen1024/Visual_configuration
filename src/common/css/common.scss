@@ -1,0 +1,58 @@
+  @mixin ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  @mixin scroll {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  @mixin bgCenter($url,$size:auto) {
+    background: url($url) no-repeat center;
+    background-size: $size;
+  
+    &::after {
+      color: #fff;
+    }
+  }
+  
+  @mixin samePBone($t,$r,$b,$l){
+      padding-top: $t;
+      padding-left: $l;
+      padding-right: $r;
+      padding-bottom: $b;
+      box-sizing: border-box;
+  }
+
+  @mixin border-radius($w,$h,$br){
+    width: $w;
+    height: $h;
+    border-radius: $br;
+  }
+
+  @mixin font($font,$color){
+    font-size: $font;
+    color: $color;
+  }
+
+  @mixin fonts($family,$fs,$color){
+    font-family: $family;
+    font-size: $fs;
+    color: $color;
+  }
+
+  @mixin hoverShadow(){
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.02);
+      box-shadow: 0 0 5px #ededed;
+      transition: transform linear 0.1s;
+    }
+  }
