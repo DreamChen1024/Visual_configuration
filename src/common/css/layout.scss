@@ -95,3 +95,10 @@
     top: $t;
     transform: translateX($tl);
 }
+
+@mixin transformCenter($t: 50%, $l: 50%, $tlX: -50%, $tlY: -50%) {
+    position: absolute;
+    left: $l;
+    top: $t;
+    transform: translate($tlX, $tlY);
+}
