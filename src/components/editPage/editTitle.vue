@@ -6,6 +6,14 @@
         <el-input size="medium" class="item-input" placeholder="请输入标题名称" v-model="list.textTitle"></el-input>
       </div>
     </div>
+    <div class="edit-item" v-if="list.textLinkName">
+      <div class="item-label">跳转名称：</div>
+      <el-input size="medium" class="item-input" placeholder="请输入跳转名称" v-model="list.textLinkName"></el-input>
+    </div>
+    <div class="edit-item" v-if="list.textLink">
+      <div class="item-label">跳转地址：</div>
+      <el-input size="medium" class="item-input" placeholder="请输入跳转地址" v-model="list.textLink"></el-input>
+    </div>
     <div class="edit-footer">
       <el-button>取消</el-button>
       <el-button type="primary" @click="handleSaveCompose('title')">确定</el-button>

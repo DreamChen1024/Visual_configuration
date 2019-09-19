@@ -15,6 +15,8 @@
         <div class="choose-item">九宫格</div>
         <div class="choose-item">四宫格</div>
         <div class="choose-item">分类标题</div>
+        <div class="choose-item">功能标题</div>
+        <div class="choose-item">按钮</div>
       </draggable>
     </div>
 
@@ -60,6 +62,19 @@
               </div>
             </div>
 
+            <!-- 功能标题 -->
+            <div class="list-item titleLink" v-if="sort.type === 'titleLink'">
+              <div class="titleLink-item">
+                <div class="item-left">{{sort.textContent.textTitle}}</div>
+                <div class="item-right">{{sort.textContent.textLinkName}}</div>
+              </div>
+            </div>
+
+            <!-- 按钮 -->
+            <div class="list-item button" v-if="sort.type === 'button'">
+              <Button :buttonData="sort.textContent"></Button>
+            </div>
+
             <!-- 组件操作 -->
             <div class="item-close" @click.stop="handleItemDel(index)">
               <van-icon name="delete" />
@@ -94,10 +109,15 @@
         </div>
 
         <!-- 标题 -->
-        <div class="edit" v-if="area === 'title'">
+        <div class="edit" v-if="sortList3.indexOf(area) > -1">
           <editTitle
             :list="composeList[areaIndex].textContent"
             ></editTitle>
+        </div>
+
+        <!-- 按钮 -->
+        <div class="edit" v-if="area === 'button'">
+          <editButton :list="composeList[areaIndex].textContent"></editButton>
         </div>
       </transition>
     </div>
@@ -126,13 +146,14 @@ import basics from "@/common/js/config/basics.js";
 export default {
   data() {
     return {
-      chooseList: [ 'banner', 'bannerSmall', 'swiper', 'grid', 'gridEven', 'title'], //组件库
+      chooseList: [ 'banner', 'bannerSmall', 'swiper', 'grid', 'gridEven', 'title', 'titleLink', 'button'], //组件库
       composeList: [], //组装库
       area: "", //组件类别
       areaIndex: "", //组件索引
       dialogVisible: false, //弹出框
       sortList1: [ 'banner', 'bannerSmall', 'swiper' ], //轮播分类
       sortList2: [ 'grid', 'gridEven' ], //宫格分类
+      sortList3: [ 'title', 'titleLink' ], //标题分类
     };
   },
   methods: {
@@ -223,10 +244,12 @@ export default {
     Swiper: () => import("@/components/template/Swiper.vue"),
     Grid: () => import("@/components/template/Grid.vue"),
     GridEven: () => import("@/components/template/GridEven.vue"),
+    Button: () => import("@/components/template/Button.vue"),
     Upload: () => import("@/components/template/Upload.vue"),
     editBanner: () => import("@/components/editPage/editBanner.vue"),
     editGrid: () => import("@/components/editPage/editGrid.vue"),
-    editTitle: () => import("@/components/editPage/editTitle.vue")
+    editTitle: () => import("@/components/editPage/editTitle.vue"),
+    editButton: () => import("@/components/editPage/editButton.vue")
   }
 };
 </script>
@@ -375,8 +398,12 @@ export default {
             padding: 0 15px;
             font-size: 14px;
           }
+          .item-color {
+            width: 100%;
+          }
           .item-radio {
-            @include textCenter(100%, 36px);
+            width: 100%;
+            @include heightCenter(36px);
             line-height: 48px;
           }
           .text-gray {

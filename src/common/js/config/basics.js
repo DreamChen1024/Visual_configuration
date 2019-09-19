@@ -206,44 +206,42 @@ module.exports = {
   },
   titleLink: {
     typeArea: "titleLink",
-    textContent: [
-      {
-        textTitle: "美食优惠",
-        textLinkName: "更多",
-        textLink: "www.baidu.com"
-      }
-    ],
+    textContent: {
+      textTitle: "美食优惠",
+      textLinkName: "更多",
+      textLink: "www.baidu.com"
+    }
+
   },
   title: {
     typeArea: "title",
     textContent: {
-        textTitle: "饭票"
-    }
-  
+      textTitle: "饭票"
+    }  
   },
+  // button: {
+  //   typeArea: "button",
+  //   textContent: [
+  //     {
+  //       left: "左",
+  //       Link_l: "",
+  //       right: "右",
+  //       Link_r: ""
+  //     }
+  //   ],
+  // },
   button: {
-    typeArea: "button",
-    textContent: [
-      {
-        left: "左",
-        Link_l: "",
-        right: "右",
-        Link_r: ""
-      }
-    ],
-  },
-  buttonIdea: {
     typeArea: "buttonIdea",
-    textContent: [
-      {
-        left: "按钮",
-        Link_l: "",
-        right: "按钮",
-        Link_r: "",
-        color: "",
-        round: true
-      }
-    ],
+    textContent: {
+      left: "按钮",
+      Link_l: "",
+      right: "按钮",
+      Link_r: "",
+      color: "",
+      bgColor: "",
+      round: true,
+      type: false
+    }
   }
 
 }
