@@ -44,6 +44,39 @@ module.exports = {
       }
     ],
   },
+  swiper: {
+    typeArea: "swiper",
+    imgs: [
+      {
+        src: require("@/assets/img/swiper1.png"),
+        url: {
+          type: "0",
+          url: ""
+        }
+      },
+      {
+        src: require("@/assets/img/swiper2.png"),
+        url: {
+          type: "0",
+          url: ""
+        }
+      },
+      {
+        src: require("@/assets/img/swiper3.png"),
+        url: {
+          type: "0",
+          url: ""
+        }
+      },
+      {
+        src: require("@/assets/img/swiper4.png"),
+        url: {
+          type: "0",
+          url: ""
+        }
+      }
+    ],
+  },
   grid: {
     typeArea: "grid",
     imgs: [
@@ -171,39 +204,6 @@ module.exports = {
       }
     ],
   },
-  swiper: {
-    typeArea: "swiper",
-    imgs: [
-      {
-        src: require("@/assets/img/swiper1.png"),
-        url: {
-          type: "0",
-          url: ""
-        }
-      },
-      {
-        src: require("@/assets/img/swiper2.png"),
-        url: {
-          type: "0",
-          url: ""
-        }
-      },
-      {
-        src: require("@/assets/img/swiper3.png"),
-        url: {
-          type: "0",
-          url: ""
-        }
-      },
-      {
-        src: require("@/assets/img/swiper4.png"),
-        url: {
-          type: "0",
-          url: ""
-        }
-      }
-    ],
-  },
   titleLink: {
     typeArea: "titleLink",
     textContent: [
@@ -216,11 +216,10 @@ module.exports = {
   },
   title: {
     typeArea: "title",
-    textContent: [
-      {
+    textContent: {
         textTitle: "饭票"
-      }
-    ],
+    }
+  
   },
   button: {
     typeArea: "button",

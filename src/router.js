@@ -17,5 +17,13 @@ export default new Router({
       },
       component: () => import('./views/Main/main.vue')
     },
+    {
+      path: '/text',
+      name: 'text',
+      meta: {
+        title: '可视化组件配置'
+      },
+      component: () => import('./views/text.vue')
+    },
   ]
 })

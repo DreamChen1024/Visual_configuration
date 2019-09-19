@@ -2,7 +2,7 @@
   <div class="main">
     <!-- 选择区域 -->
     <div class="choose-area">
-      <div class="title">选择区域</div>
+      <div class="area-title">选择区域</div>
       <draggable
         class="drag-area"
         :list="chooseList"
@@ -11,7 +11,10 @@
       >
         <div class="choose-item">轮播图(大)</div>
         <div class="choose-item">轮播图(小)</div>
+        <div class="choose-item">轮播图(异型)</div>
         <div class="choose-item">九宫格</div>
+        <div class="choose-item">四宫格</div>
+        <div class="choose-item">分类标题</div>
       </draggable>
     </div>
 
@@ -35,11 +38,29 @@
               <Banner :bannerData="sort"></Banner>
             </div>
 
+            <!-- 轮播图多个slide -->
+            <div class="list-item swiper" v-if="sort.type === 'swiper'">
+              <Swiper :swiperData="sort"></Swiper>
+            </div>
+
             <!-- 九宫格 -->
             <div class="list-item grid" v-if="sort.type === 'grid'">
               <Grid :gridData="sort" :colNum="3"></Grid>
             </div>
 
+            <!-- 四宫格 -->
+            <div class="list-item grid" v-if="sort.type === 'gridEven'">
+              <GridEven :gridEvenData="sort" :colNum="2"></GridEven>
+            </div>
+
+            <!-- 分类标题 -->
+            <div class="list-item title" v-if="sort.type === 'title'">
+              <div class="title-item">
+                <h3>{{sort.textContent.textTitle}}</h3>
+              </div>
+            </div>
+
+            <!-- 组件操作 -->
             <div class="item-close" @click.stop="handleItemDel(index)">
               <van-icon name="delete" />
             </div>
@@ -50,22 +71,33 @@
 
     <!-- 编辑区域 -->
     <div class="edit-area">
-      <div class="title">编辑区域</div>
+      <div class="area-title">编辑区域</div>
       <transition name="slide-fade" mode="out-in">
-
-        <!-- 轮播图大 -->
-        <div class="edit" v-if="area === 'banner'">
-          <editBanner :list="composeList[areaIndex].imgs" :listIndex="areaIndex" @add="handleAdd" @del="handleDel" @upload="handleUploadBtn"></editBanner>
+        <!-- 轮播图 -->
+        <div class="edit" v-if="sortList1.indexOf(area) > -1">
+          <editBanner
+            :list="composeList[areaIndex].imgs"
+            @add="handleAdd"
+            @del="handleDel"
+            @upload="handleUploadBtn"
+          ></editBanner>
         </div>
 
-        <!-- 轮播图小 -->
-        <div class="edit" v-if="area === 'bannerSmall'">
-          <editBanner :list="composeList[areaIndex].imgs" :listIndex="areaIndex" @add="handleAdd" @del="handleDel" @upload="handleUploadBtn"></editBanner>
+        <!-- 宫格 -->
+        <div class="edit" v-if="sortList2.indexOf(area) > -1">
+          <editGrid
+            :list="composeList[areaIndex].imgs"
+            @add="handleAdd"
+            @del="handleDel"
+            @upload="handleUploadBtn"
+          ></editGrid>
         </div>
 
-        <!-- 九宫格 -->
-        <div class="edit" v-if="area === 'grid'">
-          <editGrid  :list="composeList[areaIndex].imgs" :listIndex="areaIndex" @add="handleAdd" @del="handleDel" @upload="handleUploadBtn"></editGrid>
+        <!-- 标题 -->
+        <div class="edit" v-if="area === 'title'">
+          <editTitle
+            :list="composeList[areaIndex].textContent"
+            ></editTitle>
         </div>
       </transition>
     </div>
@@ -94,12 +126,14 @@ import basics from "@/common/js/config/basics.js";
 export default {
   data() {
     return {
-      chooseList: [ 'banner', 'bannerSmall', 'grid' ], //组件库
+      chooseList: [ 'banner', 'bannerSmall', 'swiper', 'grid', 'gridEven', 'title'], //组件库
       composeList: [], //组装库
       area: "", //组件类别
       areaIndex: "", //组件索引
       dialogVisible: false, //弹出框
-    }
+      sortList1: [ 'banner', 'bannerSmall', 'swiper' ], //轮播分类
+      sortList2: [ 'grid', 'gridEven' ], //宫格分类
+    };
   },
   methods: {
     //监听拖拽
@@ -127,14 +161,28 @@ export default {
       this.area = "";
     },
     //添加
-    handleAdd(index) {
-      this.composeList[index].imgs.push({
-        src: require("@/assets/img/banner1.jpg"),
-        url: {
-          type: "0", //0默认没有跳转地址
-          url: ""
-        }
-      });
+    handleAdd() {
+      console.log(this.area, this.areaIndex);
+      if (this.sortList1.indexOf(this.area) > -1) {
+        this.composeList[this.areaIndex].imgs.push({
+          src: require("@/assets/img/banner1.jpg"),
+          url: {
+            type: "0", //0默认没有跳转地址
+            url: ""
+          }
+        });
+      }
+      if (this.sortList2.indexOf(this.area) > -1) {
+        this.composeList[this.areaIndex].imgs.push({
+          src: require("@/assets/img/t6.png"),
+          url: {
+            type: "0",
+            url: ""
+          },
+          title: "三只松鼠",
+          details: "每满100减15元"
+        });
+      }
     },
     // 删除
     handleDel(index) {
@@ -159,7 +207,7 @@ export default {
     handleUpload() {
       console.log("确认上传");
       this.handleCancel();
-    },
+    }
   },
   watch: {
     composeList: {
@@ -171,19 +219,22 @@ export default {
   },
   components: {
     draggable,
-    Banner: () => import('@/components/template/Banner.vue'),
-    Grid: () => import('@/components/template/Grid.vue'),
-    Upload: () => import('@/components/template/Upload.vue'),
-    editBanner: () => import('@/components/editPage/editBanner.vue'),
-    editGrid: () => import('@/components/editPage/editGrid.vue')
+    Banner: () => import("@/components/template/Banner.vue"),
+    Swiper: () => import("@/components/template/Swiper.vue"),
+    Grid: () => import("@/components/template/Grid.vue"),
+    GridEven: () => import("@/components/template/GridEven.vue"),
+    Upload: () => import("@/components/template/Upload.vue"),
+    editBanner: () => import("@/components/editPage/editBanner.vue"),
+    editGrid: () => import("@/components/editPage/editGrid.vue"),
+    editTitle: () => import("@/components/editPage/editTitle.vue")
   }
-}
+};
 </script>
 
 <style lang="scss">
 @import "@/common/css/global.scss";
 .main {
-  .title {
+  .area-title {
     @include textCenter(100%, 60px);
     font-size: 20px;
   }
@@ -242,7 +293,7 @@ export default {
           color: #4386f4;
         }
         &:hover .item-close {
-            display: block;
+          display: block;
         }
         .swipe-banner {
           width: 100%;
@@ -258,6 +309,10 @@ export default {
           width: 220px;
           height: 160px;
           margin: auto;
+        }
+        .title-item {
+          font-size: 14px;
+          @include textCenter(100%, 26px);
         }
         .titleLink-item {
           display: flex;
