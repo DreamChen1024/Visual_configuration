@@ -55,7 +55,11 @@ export default {
       option: {}
     };
   },
-
+  watch: {
+    swiperData(newVal, oldVal) {
+      console.log(newVal, 'swiper')
+    }
+  },
   created() {
     console.log(swiper2);
     const _this = this;
@@ -65,7 +69,7 @@ export default {
       //循环
       loop: this.loop,
       //设定初始化时slide的索引
-      initialSlide: 0,   
+      initialSlide: 1,   
       // activeIndex: 2,
       effect: this.effect,
       //自动播放
